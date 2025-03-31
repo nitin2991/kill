@@ -27,12 +27,15 @@ async function startPuppeteer() {
         console.log("Launching Puppeteer...");
         
         // Ensure Puppeteer uses its own Chromium if installed
-        const executablePath = puppeteer.executablePath();
-        
         const browser = await puppeteer.launch({
-    headless: true,  // or 'new' for the latest headless mode
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-});
+            headless: true,  // 'true' for old headless mode, 'new' for the latest
+            args: [
+                '--no-sandbox', 
+                '--disable-setuid-sandbox', 
+                '--disable-dev-shm-usage', 
+                '--single-process'
+            ]
+        });
 
         const page = await browser.newPage();
         await page.goto('https://example.com', { waitUntil: 'domcontentloaded' });
@@ -46,20 +49,6 @@ async function startPuppeteer() {
         console.error("Stack Trace:", error.stack);
     }
 }
-
-async function startTool() {
-    try {
-        await importantTaskBeforeStart();
-        await startTelegramBot();
-        await startPuppeteer(); // Start Puppeteer process
-        console.log("Tool started successfully!");
-    } catch (error) {
-        console.error("Error starting the tool:", error.message);
-        console.error("Stack Trace:", error.stack);
-    }
-}
-
-startTool();
 
 async function startTelegramBot() {
     const { TelegramBot } = require('./src/telegram/bot');
