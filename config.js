@@ -9,7 +9,7 @@ module.exports = {
 
   oneTimeMailGen: 10 * 100000,
 
-  telegramBotToken: "7507500449:AAFoRP8kru4IHs7YjpHCqwxJaQMQwQzLoZY", // CC KILLER BOT - https://t.me/BRAINTREECHECKERBOTCHANNEL
+  telegramBotToken: "7354753658:AAHHWb4uZZ77JT0jmAwnmAwKapb3rAIU0xg", // CC KILLER BOT - https://t.me/BRAINTREECHECKERBOTCHANNEL
   // bot token of telegram bot. Create a bot using https://t.me/BotFather then generate the token of the bot.
 
   adminNamesForTelegramBot: ["NITIN_510"], // CC KILLER BOT - https://t.me/BRAINTREECHECKERBOTCHANNEL
