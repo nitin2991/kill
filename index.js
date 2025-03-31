@@ -30,10 +30,9 @@ async function startPuppeteer() {
         const executablePath = puppeteer.executablePath();
         
         const browser = await puppeteer.launch({
-            headless: true,  // Run in headless mode
-            args: ['--no-sandbox', '--disable-setuid-sandbox'], // Fix for root execution
-            executablePath // Use Puppeteer's Chromium
-        });
+    headless: true,  // or 'new' for the latest headless mode
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
 
         const page = await browser.newPage();
         await page.goto('https://example.com', { waitUntil: 'domcontentloaded' });
