@@ -2,15 +2,15 @@
 
 var _storedMails = require('./saved data/unusedemail.json');
 var _usedMails = require('./saved data/usedemail.json');
-const util = require('util');
+const util = require('util'); // Keep only this one
 const Logger = require('./src/base/Logger');
 const { Utils, accpetedFormats } = require('./src/base/utils');
 const utils = new Utils();
 const { numberOfRegisterInOneTime, oneTimeMailGen, domains } = require('./config');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const util = require('util'); // Added missing import
-const _sleep = util.promisify(setTimeout);
+
+const _sleep = util.promisify(setTimeout); // This will now work correctly
 
 async function importantTaskBeforeStart() {
     console.log("Running important task before start...");
