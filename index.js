@@ -22,10 +22,30 @@ async function startTelegramBot() {
     await _sleep(1000); // Simulating bot startup
 }
 
+async function startPuppeteer() {
+    try {
+        console.log("Launching Puppeteer...");
+        const browser = await puppeteer.launch({
+            headless: true,  // Run in headless mode
+            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Fix for root execution
+        });
+
+        const page = await browser.newPage();
+        await page.goto('https://example.com');
+        console.log("Page title:", await page.title());
+
+        await browser.close();
+        console.log("Puppeteer finished successfully!");
+    } catch (error) {
+        console.error("Error launching Puppeteer:", error);
+    }
+}
+
 async function startTool() {
     try {
         await importantTaskBeforeStart();
         await startTelegramBot();
+        await startPuppeteer(); // Start Puppeteer process
         console.log("Tool started successfully!");
     } catch (error) {
         console.error("Error starting the tool:", error);
