@@ -9,13 +9,28 @@ const utils = new Utils();
 const { numberOfRegisterInOneTime, oneTimeMailGen, domains } = require('./config');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-let telegramBot = null;
+const util = require('util'); // Added missing import
 const _sleep = util.promisify(setTimeout);
 
+async function importantTaskBeforeStart() {
+    console.log("Running important task before start...");
+    await _sleep(1000); // Simulating some async task
+}
+
+async function startTelegramBot() {
+    console.log("Starting Telegram bot...");
+    await _sleep(1000); // Simulating bot startup
+}
+
 async function startTool() {
-    await importantTaskBeforeStart();
-    await startTelegramBot();
-};
+    try {
+        await importantTaskBeforeStart();
+        await startTelegramBot();
+        console.log("Tool started successfully!");
+    } catch (error) {
+        console.error("Error starting the tool:", error);
+    }
+}
 
 startTool();
 
