@@ -13,21 +13,50 @@ let telegramBot = null;
 const _sleep = util.promisify(setTimeout);
 
 async function startTool() {
-    await importantTaskBeforeStart();
-    await startTelegramBot();
-};
+    try {
+        await importantTaskBeforeStart(); // Ensure this function exists or remove it if not needed
+        await startTelegramBot();
+        await startBrowser(); // Start the Puppeteer browser here
+    } catch (error) {
+        Logger.error('Error during tool start:', error);
+    }
+}
 
-startTool();
+async function importantTaskBeforeStart() {
+    // Implement this function as needed, or remove it if not necessary
+    Logger.debug('Important task before start...');
+}
 
 async function startTelegramBot() {
-    const { TelegramBot } = require('./src/telegram/bot');
-    telegramBot = new TelegramBot();
-    Logger.debug('Starting Telegram bot ...');
-    await telegramBot.start().catch((err) => {
-        console.error(err);
-    });
-    Logger.debug('Telegram bot started successfully!');
-};
+    try {
+        const { TelegramBot } = require('./src/telegram/bot');
+        telegramBot = new TelegramBot();
+        Logger.debug('Starting Telegram bot ...');
+        await telegramBot.start();
+        Logger.debug('Telegram bot started successfully!');
+    } catch (err) {
+        Logger.error('Error starting Telegram bot:', err);
+    }
+}
+
+// Launch Puppeteer browser with no-sandbox fix
+async function startBrowser() {
+    try {
+        const browser = await puppeteer.launch({
+            headless: true, // Set to false if you want to see the browser window
+            args: ['--no-sandbox', '--disable-setuid-sandbox'], // Fix to allow Puppeteer to run as root
+        });
+
+        const page = await browser.newPage();
+        // Your Puppeteer code here...
+
+        await browser.close();
+    } catch (err) {
+        Logger.error('Error launching Puppeteer:', err);
+    }
+}
+
+startTool();
 
 /**
  * 
