@@ -25,19 +25,26 @@ async function startTelegramBot() {
 async function startPuppeteer() {
     try {
         console.log("Launching Puppeteer...");
+        
+        // Ensure Puppeteer uses its own Chromium if installed
+        const executablePath = puppeteer.executablePath();
+        
         const browser = await puppeteer.launch({
             headless: true,  // Run in headless mode
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Fix for root execution
+            args: ['--no-sandbox', '--disable-setuid-sandbox'], // Fix for root execution
+            executablePath // Use Puppeteer's Chromium
         });
 
         const page = await browser.newPage();
-        await page.goto('https://example.com');
+        await page.goto('https://example.com', { waitUntil: 'domcontentloaded' });
+
         console.log("Page title:", await page.title());
 
         await browser.close();
         console.log("Puppeteer finished successfully!");
     } catch (error) {
-        console.error("Error launching Puppeteer:", error);
+        console.error("Error launching Puppeteer:", error.message);
+        console.error("Stack Trace:", error.stack);
     }
 }
 
@@ -48,7 +55,8 @@ async function startTool() {
         await startPuppeteer(); // Start Puppeteer process
         console.log("Tool started successfully!");
     } catch (error) {
-        console.error("Error starting the tool:", error);
+        console.error("Error starting the tool:", error.message);
+        console.error("Stack Trace:", error.stack);
     }
 }
 
